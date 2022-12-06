@@ -12,3 +12,6 @@ GET http://localhost:8080/exam/java/remove?question=QuestionText&answer=Question
 
 ###Получить список вопросов
 GET http://localhost:8080/exam/java/
+
+###Получить список вопросов рандомно
+GET http://localhost:8080/exam/java/get/1
