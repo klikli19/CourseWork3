@@ -4,6 +4,7 @@ import com.skypro.examinerservice.model.Question;
 import com.skypro.examinerservice.service.QuestionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
@@ -20,12 +21,12 @@ public class JavaQuestionController {
     }
 
     @GetMapping("add")
-    public Question add(@PathParam("question") String question, @PathParam("answer") String answer) {
+    public Question add(@RequestParam("question") String question, @RequestParam("answer") String answer) {
         return service.add(question, answer);
     }
 
     @GetMapping("/remove")
-    public Question remove(@PathParam("question") String question, @PathParam("answer") String answer) {
+    public Question remove(@RequestParam("question") String question, @RequestParam("answer") String answer) {
         Question tmp = new Question(question, answer);
         return service.remove(tmp);
     }

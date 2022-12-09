@@ -34,12 +34,16 @@ public class ExamServiceImplTest {
                 new Question("test", "answer"),
                 new Question("test2", "answer2"),
                 new Question("test3", "answer3"),
-                new Question("test4", "answer4")
+                new Question("test4", "answer4"),
+                new Question("test5", "answer5")
         );
         when(javaQuestionService.getAll()).thenReturn(questions);
         when(javaQuestionService.getRandomQuestion()).thenReturn(
                 new Question("test", "answer"),
-                new Question("test2", "answer2"));
+                new Question("test2", "answer2"),
+                new Question("test3", "answer3"),
+                new Question("test4", "answer4"),
+                new Question("test5", "answer5"));
     }
 
     @Test
