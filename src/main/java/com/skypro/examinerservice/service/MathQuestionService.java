@@ -3,24 +3,19 @@ package com.skypro.examinerservice.service;
 import com.skypro.examinerservice.exception.QuestionNotFoundException;
 import com.skypro.examinerservice.exception.QuestionOnListException;
 import com.skypro.examinerservice.model.Question;
-import com.skypro.examinerservice.repository.JavaQuestionRepository;
 import com.skypro.examinerservice.repository.QuestionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
 
 @Service
-public class JavaQuestionService implements QuestionService{
+public class MathQuestionService implements QuestionService{
     private final QuestionRepository questions;
-    private final Random random = new Random();
 
-
-    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository questions) {
+    public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository questions) {
         this.questions = questions;
     }
-
 
     @Override
     public Question add(String question, String answer) {
@@ -52,6 +47,6 @@ public class JavaQuestionService implements QuestionService{
 
     @Override
     public Question getRandomQuestion() {
-        return new ArrayList<>(questions.getAll()).get(random.nextInt(questions.getAll().size()));
+        return null;
     }
 }
