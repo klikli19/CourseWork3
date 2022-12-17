@@ -3,68 +3,72 @@ package com.skypro.examinerservice;
 import com.skypro.examinerservice.exception.QuestionNotFoundException;
 import com.skypro.examinerservice.exception.QuestionOnListException;
 import com.skypro.examinerservice.model.Question;
+import com.skypro.examinerservice.repository.JavaQuestionRepository;
 import com.skypro.examinerservice.service.JavaQuestionService;
-import com.skypro.examinerservice.service.QuestionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
-
+@ExtendWith(MockitoExtension.class)
 public class JavaQuestionServiceTest {
-    private final QuestionService service = new JavaQuestionService();
 
+
+    @Mock
+    private JavaQuestionRepository repository;
     public static final String QUESTION = "test";
     public static final String ANSWER = "answer";
+    public static final Question TEST = new Question("test", "answer");
 
-    public static final Question TEST = new Question("question", "answer");
+    @InjectMocks
+    private  JavaQuestionService service;
 
     @Test
     public void addTest() {
-        Question question = new Question(QUESTION, ANSWER);
-        assertEquals(question, service.add("test", "answer"));
-        assertThat(service.getAll()).contains(question);
+        when(repository.add(TEST)).thenReturn(TEST);
+        assertEquals(service.add(QUESTION, ANSWER),TEST);
     }
 
-    @Test
-    public void addTestException() {
-        Assertions.assertThrows(QuestionOnListException.class, () -> {
-            service.add(TEST);
-        });
-    }
-
-    @Test
-    public void remove() {
-        Question question = new Question(QUESTION, ANSWER);
-        service.add(question);
-        assertEquals(question, service.remove(question));
-    }
 
     @Test
     public void removeTestException() {
+        Question question = new Question(QUESTION, ANSWER);
+        repository.add(question);
         Assertions.assertThrows(QuestionNotFoundException.class, () -> {
-            service.remove(TEST);
-        });
+            service.remove(question);});
     }
+
 
     @Test
     public void getAllEmptyTest() {
-        assertTrue(service.getAll().isEmpty());
+        Set<Question> test = new HashSet<>();
+        when(repository.getAll()).thenReturn(test);
+        assertEquals(service.getAll(), test);
     }
 
     @Test
     public void getAllTest() {
-        Question questionTest = new Question(QUESTION, ANSWER);
-        service.add(questionTest);
-        assertTrue(service.getAll().contains(questionTest));
+        Set<Question> test = Set.of(TEST);
+        when(repository.getAll()).thenReturn(test);
+        assertTrue(service.getAll().containsAll(test));
     }
 
     @Test
     public void getRandomQuestionTest() {
-        Question question = new Question(QUESTION, ANSWER);
-        service.add(question);
-        assertEquals(question, service.getRandomQuestion());
+        Set<Question> test = Set.of(TEST);
+        when(repository.getAll()).thenReturn(test);
+        Question test2 = service.getRandomQuestion();
+        assertFalse(test2.equals(test));
     }
 
 }

@@ -7,11 +7,14 @@ import com.skypro.examinerservice.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 @Service
 public class MathQuestionService implements QuestionService{
     private final QuestionRepository questions;
+    private final Random random = new Random();
 
     public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository questions) {
         this.questions = questions;
@@ -47,6 +50,6 @@ public class MathQuestionService implements QuestionService{
 
     @Override
     public Question getRandomQuestion() {
-        return null;
+        return new ArrayList<>(questions.getAll()).get(random.nextInt(questions.getAll().size()));
     }
 }
